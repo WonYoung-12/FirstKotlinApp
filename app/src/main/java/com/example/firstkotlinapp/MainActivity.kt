@@ -11,7 +11,7 @@ class MainActivity : AppCompatActivity() {
     // 상수
     companion object {
         // const val은 컴파일 시간에 결정
-        // val은 런타임에 결
+        // val은 런타임에 결정
         private const val LOG_TAG = "MainActivity"
     }
 
