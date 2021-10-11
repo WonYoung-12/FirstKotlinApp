@@ -13,20 +13,32 @@ class MainActivity : AppCompatActivity() {
         // val은 런타임에 결정
         private const val LOG_TAG = "MainActivity"
     }
-    private lateinit var binding : ActivityMainBinding
+
+    private lateinit var binding: ActivityMainBinding
+    private lateinit var mSearchHistoryAdapter: SearchHistoryAdapter
+    private lateinit var mSearchHistoryList: ObservableArrayList<SearchHistory>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView<ActivityMainBinding>(this, R.layout.activity_main)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         createRecyclerView()
     }
 
     private fun createRecyclerView() {
-        var historyList: ObservableArrayList<SearchHistory> = ObservableArrayList()
-        historyList.add(SearchHistory("Google", "ddd", "2020-01-01"))
-        historyList.add(SearchHistory("Naver", "ddd", "2020-01-01"))
+        mSearchHistoryList = ObservableArrayList()
 
-        val adapter = SearchHistoryAdapter(historyList)
-        binding.historyList.adapter = adapter
+        initItems()
+        mSearchHistoryAdapter = SearchHistoryAdapter(mSearchHistoryList)
+        binding.recyclerView.adapter = mSearchHistoryAdapter
+        binding.historyList = mSearchHistoryList
+    }
+
+    private fun initItems(){
+        mSearchHistoryList.add(SearchHistory("Google", "ddd", "2020-01-01"))
+        mSearchHistoryList.add(SearchHistory("Naver", "ddd", "2020-01-01"))
+    }
+
+    fun addHistoryItem(item: SearchHistory) {
+        mSearchHistoryAdapter.addSearchHistory(item)
     }
 }

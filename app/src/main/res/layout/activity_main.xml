@@ -1,12 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:bind="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="androidx.databinding.ObservableArrayList" />
+
+        <import type="com.example.firstkotlinapp.SearchHistory" />
+
+        <variable
+            name="historyList"
+            type="ObservableArrayList&lt;SearchHistory&gt;" />
+    </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".MainActivity">
+        android:layout_height="match_parent">
 
         <com.example.firstkotlinapp.SearchBar
             android:id="@+id/search_bar"
@@ -15,11 +25,12 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/history_list"
+            android:id="@+id/recyclerView"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:layout_constraintTop_toBottomOf="@id/search_bar">
+            app:layout_constraintTop_toBottomOf="@id/search_bar"
+            bind:item="@{historyList}">
 
         </androidx.recyclerview.widget.RecyclerView>
 
