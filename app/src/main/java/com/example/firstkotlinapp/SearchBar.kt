@@ -48,27 +48,32 @@ class SearchBar @JvmOverloads constructor(
             override fun onNothingSelected(parent: AdapterView<*>?) {
                 TODO("Not yet implemented")
             }
-
         }
+
+        mBinding.searchButton.setOnClickListener { onSearch() }
 
         mBinding.keyword.setOnKeyListener { view: View, keyCode: Int, keyEvent: KeyEvent ->
             if (keyCode == KEYCODE_ENTER && keyEvent.action == ACTION_UP) {
-                Toast.makeText(view.context, mBinding.keyword.text.toString(), Toast.LENGTH_SHORT)
-                    .show()
-                if (getContext() is MainActivity) {
-                    val sdf = SimpleDateFormat("yyyy/M/dd/ hh:mm:ss")
-                    val currentDate = sdf.format(Date())
-                    Log.d(LOG_TAG, currentDate)
-
-                    val searchHistory =
-                        SearchHistory(mSearchEngine, mBinding.keyword.text.toString(), currentDate)
-
-                    val activity: MainActivity = getContext() as MainActivity
-                    activity.addHistoryItem(searchHistory)
-                }
+                onSearch()
                 true
             } else
                 false
+        }
+    }
+
+    private fun onSearch() {
+        Toast.makeText(context, mBinding.keyword.text.toString(), Toast.LENGTH_SHORT)
+            .show()
+        if (context is MainActivity) {
+            val sdf = SimpleDateFormat("yyyy/M/dd/ hh:mm:ss")
+            val currentDate = sdf.format(Date())
+            Log.d(LOG_TAG, currentDate)
+
+            val searchHistory =
+                SearchHistory(mSearchEngine, mBinding.keyword.text.toString(), currentDate)
+
+            val activity: MainActivity = context as MainActivity
+            activity.addHistoryItem(searchHistory)
         }
     }
 }
