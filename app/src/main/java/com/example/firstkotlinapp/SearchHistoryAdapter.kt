@@ -22,6 +22,8 @@ class SearchHistoryAdapter(private var historyList: ObservableArrayList<SearchHi
         }
     }
 
+    private lateinit var eventListener: EventListener
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchHistoryViewHolder {
         val binding: SearchHistoryBinding =
             SearchHistoryBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -38,6 +40,14 @@ class SearchHistoryAdapter(private var historyList: ObservableArrayList<SearchHi
 
     override fun getItemCount() = historyList.size
 
+    fun setEventListener(eventListener: (SearchHistory) -> Unit) {
+        this.eventListener = object : EventListener {
+            override fun onDeleteClick(searchHistory: SearchHistory) {
+                eventListener(searchHistory)
+            }
+        }
+    }
+
     fun addSearchHistory(item: SearchHistory) {
         historyList.add(0, item)
     }
@@ -48,6 +58,8 @@ class SearchHistoryAdapter(private var historyList: ObservableArrayList<SearchHi
     }
 
     private fun deleteItem(position: Int) {
+        // TODO : why don't do anything?
+        eventListener.onDeleteClick(historyList[position])
         historyList.removeAt(position)
     }
 
@@ -57,7 +69,11 @@ class SearchHistoryAdapter(private var historyList: ObservableArrayList<SearchHi
 
         init {
             itemView.setOnClickListener {
-                Toast.makeText(itemView.context, "Item Clicked, position : " + adapterPosition, Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    itemView.context,
+                    "Item Clicked, position : " + adapterPosition,
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         }
 

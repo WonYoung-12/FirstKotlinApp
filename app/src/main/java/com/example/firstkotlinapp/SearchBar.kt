@@ -2,7 +2,6 @@ package com.example.firstkotlinapp
 
 import android.content.Context
 import android.util.AttributeSet
-import android.util.Log
 import android.view.KeyEvent
 import android.view.KeyEvent.ACTION_UP
 import android.view.KeyEvent.KEYCODE_ENTER
@@ -19,7 +18,7 @@ import java.util.*
 class SearchBar @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
 ) : LinearLayout(context, attrs, defStyleAttr) {
-    private var LOG_TAG = "SearchBar"
+    private var TAG = "SearchBar"
 
     private var mBinding: SearchBarBinding =
         SearchBarBinding.inflate(LayoutInflater.from(context), this, true)
@@ -27,7 +26,6 @@ class SearchBar @JvmOverloads constructor(
     private val mSearchEngineList: Array<String> = arrayOf("Google", "Naver")
     private lateinit var mSearchEngine: String
     private var mAdapter: ArrayAdapter<String>
-
 
     init {
         mAdapter =
@@ -65,9 +63,8 @@ class SearchBar @JvmOverloads constructor(
         Toast.makeText(context, mBinding.keyword.text.toString(), Toast.LENGTH_SHORT)
             .show()
         if (context is MainActivity) {
-            val sdf = SimpleDateFormat("yyyy/M/dd/ hh:mm:ss")
+            val sdf = SimpleDateFormat("yyyy/M/dd/hh:mm:ss")
             val currentDate = sdf.format(Date())
-            Log.d(LOG_TAG, currentDate)
 
             val searchHistory =
                 SearchHistory(mSearchEngine, mBinding.keyword.text.toString(), currentDate)
