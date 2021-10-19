@@ -1,7 +1,6 @@
 package com.example.firstkotlinapp
 
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ObservableArrayList
@@ -29,24 +28,18 @@ class MainActivity : AppCompatActivity() {
 
     private fun createRecyclerView() {
         mSearchHistoryList = ObservableArrayList()
+        readHistoryItems(mSearchHistoryList)
 
-        initItems()
         mSearchHistoryAdapter = SearchHistoryAdapter(mSearchHistoryList)
-        mSearchHistoryAdapter.setEventListener {
-            object : EventListener {
-                override fun onDeleteClick(searchHistory: SearchHistory) {
-                    Log.v(TAG, "onDeleteClick")
-                    mSearchHistoryDBHelper.deleteSearchHistory(searchHistory)
-                }
-            }
+        mSearchHistoryAdapter.setEventListener { searchHistory -> (Unit)
+            mSearchHistoryDBHelper.deleteSearchHistory(searchHistory)
         }
         mBinding.recyclerView.adapter = mSearchHistoryAdapter
         mBinding.historyList = mSearchHistoryList
     }
 
-    private fun initItems() {
-        mSearchHistoryList.add(SearchHistory("Google", "ddd", "2020-01-01"))
-        mSearchHistoryList.add(SearchHistory("Naver", "ddd", "2020-01-01"))
+    private fun readHistoryItems(searchHistoryList: ObservableArrayList<SearchHistory>) {
+        mSearchHistoryDBHelper.readHistory(searchHistoryList)
     }
 
     fun addHistoryItem(item: SearchHistory) {

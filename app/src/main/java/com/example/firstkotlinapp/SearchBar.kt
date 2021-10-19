@@ -67,7 +67,7 @@ class SearchBar @JvmOverloads constructor(
             val currentDate = sdf.format(Date())
 
             val searchHistory =
-                SearchHistory(mSearchEngine, mBinding.keyword.text.toString(), currentDate)
+                SearchHistory(mBinding.keyword.text.toString(), currentDate)
 
             val activity: MainActivity = context as MainActivity
             activity.addHistoryItem(searchHistory)

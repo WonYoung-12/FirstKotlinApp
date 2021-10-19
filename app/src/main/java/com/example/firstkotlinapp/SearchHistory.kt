@@ -1,5 +1,5 @@
 package com.example.firstkotlinapp
 
-data class SearchHistory(var searchEngine: String, var keyword: String, var dateTime: String) {
+data class SearchHistory(var keyword: String, var dateTime: String) {
 
 }
